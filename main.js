@@ -233,10 +233,15 @@ function calculateImpact(x, y) {
 }
 
 let impactDone = false;
+let music;
 $(document).ready(function() {
   console.log('Hello Meteor!');
 
   container = $('#main-container');
+  container.css({
+    width: WIDTH,
+    height: HEIGHT
+  });
 
   const targetCircle = $('<div>').addClass('target').appendTo(container).css({
     width: TARGET_SIZE + 'px',
@@ -245,9 +250,40 @@ $(document).ready(function() {
     left: 0
   });
 
-  container.css({
-    width: WIDTH,
-    height: HEIGHT
+  music = new Audio('Mountain_King_cut.mp3');
+  music.addEventListener('canplaythrough', function() {
+    console.log('playThrough!');
+    $('#splash .loader-msg').text('Click to play!');
+  }, false);
+
+  let gameStarted = false;
+  const splash = $('#splash');
+  let clickCount = 0;
+  splash.on('click', function() {
+    // 1st click removes the loader, displays the title and starts the music
+    // 2nd click adds subtitles on top
+    // 3rd click adds subtitles underneath
+    // 4th click adds a tiny line and starts a quick timer to start
+    if (clickCount === 0) {
+      $('#splash .loader-msg').remove();
+      $('<div>').text('Meteor!').addClass('title').appendTo(splash);
+      music.play();
+    } else if (clickCount === 1) {
+      $('<div>').text('Oh my God,').addClass('subtitle-1').appendTo(splash);
+      $('<div>').text('there\'s a').addClass('subtitle-2').appendTo(splash);
+      const flames = $('<img>').addClass('flames').attr(
+        'src', 'flames.png'
+      ).appendTo(splash);
+    } else if (clickCount === 2) {
+      $('<div>').text('heading straight towards our little town!').addClass('subtitle-3').appendTo(splash);
+    } else if (clickCount === 3) {
+      $('<div>').text('How chaotically evil :(').addClass('subtitle-4').appendTo(splash);
+      setTimeout(function() {
+        splash.remove();
+        gameStarted = true;
+      }, 1500);
+    }
+    clickCount++;
   });
 
   start();
@@ -270,6 +306,7 @@ $(document).ready(function() {
   }, false);
 
   document.addEventListener('click', function(event){
+    if (!gameStarted) { return; }
     mouseX = event.clientX;
     mouseY = event.clientY;
 

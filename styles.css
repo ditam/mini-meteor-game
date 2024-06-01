@@ -1,6 +1,10 @@
 body {
   background-color: #eee;
   overflow: hidden;
+
+  font-family: "Patrick Hand", cursive;
+  font-weight: 400;
+  font-style: normal;
 }
 
 #main-container {
@@ -55,4 +59,69 @@ body {
 
   transition-property: top, left;
   transition-duration: 0.9s;
+}
+
+#splash {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  cursor: pointer;
+  z-index: 3;
+}
+
+#splash .loader-msg {
+  position: absolute;
+  top: 350px;
+  left: 600px;
+  font-size: 20px;
+}
+
+#splash .title {
+  position: absolute;
+  top: 300px;
+  left: 500px;
+  font-size: 90px;
+}
+
+#splash .subtitle-1 {
+  position: absolute;
+  top: 140px;
+  left: 505px;
+  font-size: 60px;
+  z-index: 5;
+}
+
+#splash .subtitle-2 {
+  position: absolute;
+  top: 210px;
+  left: 530px;
+  font-size: 60px;
+  z-index: 5;
+}
+
+#splash .subtitle-3 {
+  position: absolute;
+  font-size: 60px;
+  top: 420px;
+  left: 200px;
+}
+
+#splash .subtitle-4 {
+  position: absolute;
+  top: 550px;
+  left: 730px;
+  font-size: 50px;
+  transform: rotate(335deg);
+}
+
+#splash .flames {
+  position: absolute;
+  top: 105px;
+  left: 490px;
+  width: 420px;
+  height: 260px;
+  opacity: 0.4;
+  /* TODO: fix sizing rules on other screens,
+     for now, this is handcrafted to my 1.5 DPI scaling... */
 }
