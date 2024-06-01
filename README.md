@@ -1,11 +1,3 @@
-# canvas-base
-A ready-to-use starting point for HTML5 canvas experiments
+# Meteor!
 
-Includes:
-- CSS reset
-- jQuery 3.5 slim minified
-- skeletons of index.html, CSS and JS files
-- "Hello World" commands for the console and the canvas
-
-# License
-CC0 Public Domain
+A little game made in 6-7 hours for the 2024 May Berlin Mini Game Jam, which was held in June.
