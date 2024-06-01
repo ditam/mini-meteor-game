@@ -3,6 +3,9 @@ const WIDTH = 1000; // 1280;
 const HEIGHT = 600; // 720;
 const ROAD_WIDTH = 30;
 
+const HOUSE_SIZE = 50; // should be bigger than CSS .house size
+const GRID_OFFSET = 50; // move the grid X and Y to not overlap roads
+
 const PEOPLE_COUNT = 20;
 const HOUSE_CHANCE = 0.62;
 
@@ -120,8 +123,6 @@ function start() {
   // generate houses
   generateHouses();
   // draw houses
-  const SIZE = 50; // should be bigger than CSS .house size
-  const GRID_OFFSET = 50; // move the grid X and Y to not overlap roads
   houseGrid.forEach(group => {
     const x0 = GRID_OFFSET + group.groupPosition.x * WIDTH/4;
     const y0 = GRID_OFFSET + group.groupPosition.y * HEIGHT/3;
@@ -129,8 +130,8 @@ function start() {
       row.forEach((h, index) => {
         if (h) {
           $('<div>').addClass('house').css({
-            top: y0 + rowIndex * SIZE,
-            left: x0 + index * SIZE
+            top: y0 + rowIndex * HOUSE_SIZE,
+            left: x0 + index * HOUSE_SIZE
           }).appendTo(container);
         }
       });
