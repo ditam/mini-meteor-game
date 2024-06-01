@@ -252,7 +252,7 @@ $(document).ready(function() {
 
   start();
 
-  setInterval(
+  const movementInterval = setInterval(
     movePeople,
     1000
   );
@@ -282,6 +282,7 @@ $(document).ready(function() {
     impactDone = true;
     targetCircle.remove();
     container.addClass('impact-done');
+    clearInterval(movementInterval);
     calculateImpact(mouseX, mouseY);
   }, false);
 
