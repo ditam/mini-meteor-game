@@ -1,11 +1,18 @@
 body {
   background-color: #eee;
   overflow: hidden;
-  cursor: none;
 }
 
 #main-container {
   background-color: rgb(41, 108, 65);
+}
+
+#main-container:not(.impact-done) {
+  cursor: none;
+}
+
+#main-container.impact-done {
+  cursor: default;
 }
 
 .target {
@@ -15,6 +22,16 @@ body {
   border: 2px solid rgb(133, 0, 0);
   z-index: 1;
   box-shadow: #3b0202 12px -9px 20px 5px;
+}
+
+.crater {
+  position: absolute;
+  background-color: rgb(14 0 0 / 81%);
+  border: 2px solid #ff7a3161;
+  border-radius: 300px;
+  z-index: 2;
+
+  box-shadow: inset black -8px 12px 20px 9px, #552d09c7 10px -8px 20px 30px;
 }
 
 .road {

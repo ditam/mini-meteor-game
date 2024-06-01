@@ -232,6 +232,7 @@ function calculateImpact(x, y) {
   console.log('impact score:', peopleHit, housesHit);
 }
 
+let impactDone = false;
 $(document).ready(function() {
   console.log('Hello Meteor!');
 
@@ -257,6 +258,9 @@ $(document).ready(function() {
   );
 
   document.addEventListener('mousemove', function(event){
+    if (impactDone) {
+      return;
+    }
     mouseX = event.clientX;
     mouseY = event.clientY;
     targetCircle.css({
@@ -268,6 +272,16 @@ $(document).ready(function() {
   document.addEventListener('click', function(event){
     mouseX = event.clientX;
     mouseY = event.clientY;
+
+    $('<div>').addClass('crater').css({
+      width: TARGET_SIZE + 'px',
+      height: TARGET_SIZE + 'px',
+      top: mouseY - TARGET_SIZE/2 + 'px',
+      left: mouseX - TARGET_SIZE/2 + 'px'
+    }).appendTo(container);
+    impactDone = true;
+    targetCircle.remove();
+    container.addClass('impact-done');
     calculateImpact(mouseX, mouseY);
   }, false);
 
