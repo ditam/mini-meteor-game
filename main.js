@@ -8,7 +8,7 @@ const TARGET_SIZE = 250;
 const HOUSE_SIZE = 50; // should be bigger than CSS .house size
 const GRID_OFFSET = 50; // move the grid X and Y to not overlap roads
 
-const PEOPLE_COUNT = 30;
+const PEOPLE_COUNT = 60;
 const HOUSE_CHANCE = 0.45;
 
 const STEP_SIZE = 40;
@@ -234,7 +234,7 @@ function calculateImpact(x, y) {
   let score = peopleHit + housesHit * 5;
 
   setTimeout(function() {
-    const endMsg = $('<div>').addClass('end-msg').appendTo(container);
+    const endMsg = $('<div>').addClass('end-msg offscreen').appendTo(container);
     $('<div>').addClass('header').text('NEWSPAPER').appendTo(endMsg);
     $('<div>').addClass('headline').text('Meteor strikes little town!').appendTo(endMsg);
     $('<div>').addClass('body').text(
@@ -247,7 +247,9 @@ function calculateImpact(x, y) {
     if (score > previousBest) {
       previousBest = score;
     }
-
+    setTimeout(function() {
+      endMsg.removeClass('offscreen');
+    }, 50);
   }, 2000);
 }
 
