@@ -1,8 +1,28 @@
 body {
   background-color: #eee;
+  overflow: hidden;
 }
 
-canvas {
-  background-color: white;
-  border: 1px solid gray;
+#main-container {
+  background-color: rgb(41, 108, 65);
+}
+
+.road {
+  position: absolute;
+  background-color: gray;
+}
+
+.house {
+  position: absolute;
+  background-color: brown;
+  width: 40px;
+  height: 40px;
+}
+
+.person {
+  position: absolute;
+  background-color: blue;
+  width: 10px;
+  height: 10px;
+  border-radius: 10px;
 }
