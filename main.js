@@ -206,6 +206,7 @@ function movePeople() {
   });
 }
 
+let previousBest = 0;
 function calculateImpact(x, y) {
   function getDist(obj) {
     console.assert(obj.x && obj.y, 'Unexpected object type:', obj);
@@ -230,6 +231,24 @@ function calculateImpact(x, y) {
     }
   });
   console.log('impact score:', peopleHit, housesHit);
+  let score = peopleHit + housesHit * 5;
+
+  setTimeout(function() {
+    const endMsg = $('<div>').addClass('end-msg').appendTo(container);
+    $('<div>').addClass('header').text('NEWSPAPER').appendTo(endMsg);
+    $('<div>').addClass('headline').text('Meteor strikes little town!').appendTo(endMsg);
+    $('<div>').addClass('body').text(
+      `${peopleHit} casualties, ${housesHit} houses destroyed. Total score: ${score}.
+      (Previous best: 0 points.)`
+    ).appendTo(endMsg);
+    $('<div>').addClass('button').text('Play again').appendTo(endMsg);
+    $('<div>').addClass('bottom').text('Also in the news: missing duck found!').appendTo(endMsg);
+
+    if (score > previousBest) {
+      previousBest = score;
+    }
+
+  }, 2000);
 }
 
 let impactDone = false;

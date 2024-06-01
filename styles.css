@@ -147,3 +147,51 @@ body {
   /* TODO: fix sizing rules on other screens,
      for now, this is handcrafted to my 1.5 DPI scaling... */
 }
+
+.end-msg {
+  position: absolute;
+  width: 500px;
+  height: 350px;
+  top: 200px;
+  left: 350px;
+  border-radius: 5px;
+  font-size: 32px;
+  background-color: #d6b088f5;
+  z-index: 10;
+  transform: skew(16deg, 355deg);
+}
+
+.end-msg .header {
+  font-size: 40px;
+  text-align: center;
+  border-bottom: 2px solid black;
+  padding: 10px;
+}
+
+.end-msg .headline {
+  padding: 10px;
+}
+
+.end-msg .body {
+  font-size: 24px;
+  padding: 10px;
+}
+
+.end-msg .button {
+  position: absolute;
+  right: 0;
+  bottom: 50px;
+  padding: 15px;
+  cursor: pointer;
+}
+
+.end-msg .button:hover {
+  color: white;
+  background-color: black;
+}
+
+.end-msg .bottom {
+  position: absolute;
+  bottom: 0;
+  padding: 5px;
+}
