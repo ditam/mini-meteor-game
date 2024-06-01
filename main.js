@@ -6,8 +6,10 @@ const ROAD_WIDTH = 30;
 const HOUSE_SIZE = 50; // should be bigger than CSS .house size
 const GRID_OFFSET = 50; // move the grid X and Y to not overlap roads
 
-const PEOPLE_COUNT = 20;
+const PEOPLE_COUNT = 30;
 const HOUSE_CHANCE = 0.62;
+
+const STEP_SIZE = 40;
 
 // --- utils
 function getRandomItem(array) {
@@ -26,6 +28,7 @@ function deepCopy(o) {
 
 // --- globals
 let container;
+let houseGrid;
 
 // --- rest of the stuff
 function drawRoads() {
@@ -70,7 +73,6 @@ function drawRoads() {
   });
 }
 
-let houseGrid;
 function generateHouses() {
   houseGrid = [];
   for (let j=0; j<3; j++) {
@@ -94,30 +96,32 @@ function start() {
 
   // draw random people
   const people = [];
-  const roadXs = [WIDTH/4, WIDTH/4*2, WIDTH/4*3];
-  const roadYs = [HEIGHT/3, HEIGHT/3*2];
+  const _d = ROAD_WIDTH/2 - 10/2; // -person CSS size/2 at the end
+  const roadXs = [WIDTH/4 + _d, WIDTH/4*2 + _d, WIDTH/4*3 + _d];
+  const roadYs = [HEIGHT/3 + _d, HEIGHT/3*2 + _d];
   for (let i=0; i<PEOPLE_COUNT; i++) {
     let isVertical = Math.random() < 0.5;
     if (isVertical) {
       people.push({
-        dir: 'RIGHT',
+        dir: Math.random() < 0.5? 'UP' : 'DOWN',
         x: getRandomItem(roadXs),
         y: getRandomInt(0, HEIGHT),
       });
     }
     else {
       people.push({
-        dir: 'DOWN',
+        dir: Math.random() < 0.5? 'RIGHT' : 'LEFT',
         x: getRandomInt(0, HEIGHT),
         y: getRandomItem(roadYs),
       });
     }
   }
+  console.log(people);
   people.forEach(p=>{
     $('<div>').addClass('person').css({
       top: p.y,
       left: p.x
-    }).appendTo(container);
+    }).data('p', p).appendTo(container);
   });
 
   // generate houses
@@ -139,6 +143,64 @@ function start() {
   });
 };
 
+function movePeople() {
+  console.log('moving');
+  // TODO: improve perf: cache these
+  $('.person').each((i, _el) => {
+    const el = $(_el);
+    const pData = el.data('p');
+    let x = pData.x;
+    let y = pData.y;
+    switch(pData.dir) {
+      case 'UP':
+        if (y < STEP_SIZE) {
+          pData.dir = 'DOWN';
+          y+=STEP_SIZE;
+        } else {
+          y-=STEP_SIZE;
+        }
+        break;
+      case 'RIGHT':
+        if (x > WIDTH - STEP_SIZE) {
+          pData.dir = 'LEFT';
+          x-=STEP_SIZE;
+        } else {
+          x+=STEP_SIZE;
+        }
+        break;
+      case 'DOWN':
+        if (y > HEIGHT-STEP_SIZE) {
+          pData.dir = 'UP';
+          y-=STEP_SIZE;
+        } else {
+          y+=STEP_SIZE;
+        }
+        break;
+      case 'LEFT':
+        if (x < STEP_SIZE) {
+          pData.dir = 'RIGHT';
+          x+=STEP_SIZE;
+        } else {
+          x-=STEP_SIZE;
+        }
+        break;
+      default:
+        console.error('Unknown dir:', pData.dir)
+    }
+    // update data attr
+    el.data('p', {
+      dir: pData.dir,
+      x: x,
+      y: y
+    });
+    // update CSS
+    el.css({
+      top: y,
+      left: x
+    });
+  });
+}
+
 $(document).ready(function() {
   console.log('Hello Meteor!');
 
@@ -150,4 +212,9 @@ $(document).ready(function() {
   });
 
   start();
+
+  setInterval(
+    movePeople,
+    1000
+  );
 });
