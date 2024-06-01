@@ -106,7 +106,7 @@ function start() {
     if (isVertical) {
       people.push({
         dir: Math.random() < 0.5? 'UP' : 'DOWN',
-        x: getRandomItem(roadXs),
+        x: getRandomItem(roadXs) + getRandomItem([-6, -3, 0, 3, 6]),
         y: getRandomInt(0, HEIGHT),
       });
     }
@@ -114,7 +114,7 @@ function start() {
       people.push({
         dir: Math.random() < 0.5? 'RIGHT' : 'LEFT',
         x: getRandomInt(0, HEIGHT),
-        y: getRandomItem(roadYs),
+        y: getRandomItem(roadYs) + getRandomItem([-6, -3, 0, 3, 6]),
       });
     }
   }
