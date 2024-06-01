@@ -206,6 +206,28 @@ function movePeople() {
   });
 }
 
+function restart() {
+  console.log('--restarting--');
+  $('.end-msg').remove();
+  $('.crater').remove();
+  impactDone = false;
+  movementInterval = setInterval(movePeople, 920);
+  createTargetCircle();
+  playCount++;
+}
+
+const newsBites = [
+  'missing duck found!',
+  'pie eating contest cancelled.',
+  'duck goes missing again.',
+  'dog with a funny hat on page 4!',
+  'how to treat that pesky rash!',
+  'duck-walking banned.',
+  'strange green men sightings.',
+  'headache season starts early!',
+  'president says not to panic.'
+];
+
 let previousBest = 0;
 function calculateImpact(x, y) {
   function getDist(obj) {
@@ -236,13 +258,19 @@ function calculateImpact(x, y) {
   setTimeout(function() {
     const endMsg = $('<div>').addClass('end-msg offscreen').appendTo(container);
     $('<div>').addClass('header').text('NEWSPAPER').appendTo(endMsg);
-    $('<div>').addClass('headline').text('Meteor strikes little town!').appendTo(endMsg);
+    const extra = playCount > 0? ' ...Again?' : '';
+    $('<div>').addClass('headline').text('Meteor strikes little town!' + extra).appendTo(endMsg);
     $('<div>').addClass('body').text(
       `${peopleHit} casualties, ${housesHit} houses destroyed. Total score: ${score}.
-      (Previous best: 0 points.)`
+      (Previous best: ${previousBest} points.)`
     ).appendTo(endMsg);
-    $('<div>').addClass('button').text('Play again').appendTo(endMsg);
-    $('<div>').addClass('bottom').text('Also in the news: missing duck found!').appendTo(endMsg);
+    const playAgainButton = $('<div>').addClass('button').text('Play again').appendTo(endMsg);
+    playAgainButton.on('click', function(event) {
+      restart();
+      event.stopPropagation();
+      event.preventDefault();
+    });
+    $('<div>').addClass('bottom').text(`Also in the news: ${newsBites[playCount % newsBites.length]}`).appendTo(endMsg);
 
     if (score > previousBest) {
       previousBest = score;
@@ -255,6 +283,18 @@ function calculateImpact(x, y) {
 
 let impactDone = false;
 let music;
+let targetCircle;
+let movementInterval;
+let playCount = 0;
+function createTargetCircle() {
+  targetCircle = $('<div>').addClass('target').appendTo(container).css({
+    width: TARGET_SIZE + 'px',
+    height: TARGET_SIZE + 'px',
+    top: 0,
+    left: 0
+  });
+}
+
 $(document).ready(function() {
   console.log('Hello Meteor!');
 
@@ -264,12 +304,7 @@ $(document).ready(function() {
     height: HEIGHT
   });
 
-  const targetCircle = $('<div>').addClass('target').appendTo(container).css({
-    width: TARGET_SIZE + 'px',
-    height: TARGET_SIZE + 'px',
-    top: 0,
-    left: 0
-  });
+  createTargetCircle();
 
   music = new Audio('Mountain_King_cut.mp3');
   music.addEventListener('canplaythrough', function() {
@@ -309,10 +344,7 @@ $(document).ready(function() {
 
   start();
 
-  const movementInterval = setInterval(
-    movePeople,
-    920
-  );
+  movementInterval = setInterval(movePeople, 920);
 
   document.addEventListener('mousemove', function(event){
     if (impactDone) {
