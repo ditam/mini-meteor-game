@@ -1,10 +1,20 @@
 body {
   background-color: #eee;
   overflow: hidden;
+  cursor: none;
 }
 
 #main-container {
   background-color: rgb(41, 108, 65);
+}
+
+.target {
+  position: absolute;
+  background-color: rgba(222, 14, 14, 0.5);
+  border-radius: 300px;
+  border: 2px solid rgb(133, 0, 0);
+  z-index: 1;
+  box-shadow: #3b0202 12px -9px 20px 5px;
 }
 
 .road {
@@ -26,6 +36,6 @@ body {
   height: 10px;
   border-radius: 10px;
 
-  transition-property: top left;
+  transition-property: top, left;
   transition-duration: 0.9s;
 }

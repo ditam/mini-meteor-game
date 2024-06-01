@@ -3,6 +3,8 @@ const WIDTH = 1000; // 1280;
 const HEIGHT = 600; // 720;
 const ROAD_WIDTH = 30;
 
+const TARGET_SIZE = 200;
+
 const HOUSE_SIZE = 50; // should be bigger than CSS .house size
 const GRID_OFFSET = 50; // move the grid X and Y to not overlap roads
 
@@ -133,10 +135,14 @@ function start() {
     group.houses.forEach((row, rowIndex) => {
       row.forEach((h, index) => {
         if (h) {
+          const pos = {
+            y: y0 + rowIndex * HOUSE_SIZE,
+            x: x0 + index * HOUSE_SIZE
+          };
           $('<div>').addClass('house').css({
-            top: y0 + rowIndex * HOUSE_SIZE,
-            left: x0 + index * HOUSE_SIZE
-          }).appendTo(container);
+            top: pos.y,
+            left: pos.x
+          }).data('h', pos).appendTo(container);
         }
       });
     });
@@ -144,7 +150,6 @@ function start() {
 };
 
 function movePeople() {
-  console.log('moving');
   // TODO: improve perf: cache these
   $('.person').each((i, _el) => {
     const el = $(_el);
@@ -201,10 +206,43 @@ function movePeople() {
   });
 }
 
+function calculateImpact(x, y) {
+  function getDist(obj) {
+    console.assert(obj.x && obj.y, 'Unexpected object type:', obj);
+    const xDiff = x - obj.x;
+    const yDiff = y - obj.y;
+    return Math.sqrt(xDiff*xDiff + yDiff*yDiff);
+  }
+  let peopleHit = 0;
+  let housesHit = 0;
+  $('.person').each((i, _el) => {
+    const el = $(_el);
+    const pData = el.data('p');
+    if (getDist(pData) < TARGET_SIZE/2) {
+      peopleHit++;
+    }
+  });
+  $('.house').each((i, _el) => {
+    const el = $(_el);
+    const hData = el.data('h');
+    if (getDist(hData) < TARGET_SIZE/2) {
+      housesHit++;
+    }
+  });
+  console.log('impact score:', peopleHit, housesHit);
+}
+
 $(document).ready(function() {
   console.log('Hello Meteor!');
 
   container = $('#main-container');
+
+  const targetCircle = $('<div>').addClass('target').appendTo(container).css({
+    width: TARGET_SIZE + 'px',
+    height: TARGET_SIZE + 'px',
+    top: 0,
+    left: 0
+  });
 
   container.css({
     width: WIDTH,
@@ -217,4 +255,20 @@ $(document).ready(function() {
     movePeople,
     1000
   );
+
+  document.addEventListener('mousemove', function(event){
+    mouseX = event.clientX;
+    mouseY = event.clientY;
+    targetCircle.css({
+      top: mouseY - TARGET_SIZE/2 + 'px',
+      left: mouseX - TARGET_SIZE/2 + 'px'
+    });
+  }, false);
+
+  document.addEventListener('click', function(event){
+    mouseX = event.clientX;
+    mouseY = event.clientY;
+    calculateImpact(mouseX, mouseY);
+  }, false);
+
 });
