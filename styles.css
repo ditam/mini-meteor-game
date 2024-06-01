@@ -43,22 +43,44 @@ body {
   background-color: gray;
 }
 
+.road.horizontal::before {
+  content: '.';
+  display: block;
+  color: gray;
+  width: 100%;
+  margin-top: 14px;
+  border-top: 2px dashed white;
+}
+
+.road.vertical::before {
+  content: '.';
+  display: block;
+  color: gray;
+  height: 100%;
+  margin-left: 14px;
+  border-left: 2px dashed white;
+}
+
 .house {
   position: absolute;
-  background-color: brown;
+  background: rgb(46,4,4);
+  background: linear-gradient(90deg, rgba(46,4,4,1) 0%, rgba(110,8,8,1) 50%, rgba(46,4,4,1) 100%);
   width: 40px;
   height: 40px;
+  box-shadow: black -3px 2px 4px 1px;
 }
 
 .person {
   position: absolute;
-  background-color: blue;
+  background-color: #55559c;
+  border: 2px solid #20203c;
   width: 10px;
   height: 10px;
   border-radius: 10px;
+  box-shadow: #00000052 -3px 3px 10px 1px;
 
   transition-property: top, left;
-  transition-duration: 0.9s;
+  transition-duration: 0.85s;
 }
 
 #splash {

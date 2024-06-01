@@ -1,15 +1,15 @@
 // --- constants
-const WIDTH = 1000; // 1280;
-const HEIGHT = 600; // 720;
+const WIDTH = 1280;
+const HEIGHT = 720;
 const ROAD_WIDTH = 30;
 
-const TARGET_SIZE = 200;
+const TARGET_SIZE = 250;
 
 const HOUSE_SIZE = 50; // should be bigger than CSS .house size
 const GRID_OFFSET = 50; // move the grid X and Y to not overlap roads
 
 const PEOPLE_COUNT = 30;
-const HOUSE_CHANCE = 0.62;
+const HOUSE_CHANCE = 0.45;
 
 const STEP_SIZE = 40;
 
@@ -35,7 +35,7 @@ let houseGrid;
 // --- rest of the stuff
 function drawRoads() {
   // horizontals
-  const r1 = $('<div>').addClass('road').appendTo(container);
+  const r1 = $('<div>').addClass('road horizontal').appendTo(container);
   r1.css({
     top: HEIGHT/3 + 'px',
     left: 0,
@@ -43,7 +43,7 @@ function drawRoads() {
     height: ROAD_WIDTH
   });
 
-  const r2 = $('<div>').addClass('road').appendTo(container);
+  const r2 = $('<div>').addClass('road horizontal').appendTo(container);
   r2.css({
     top: HEIGHT/3 * 2 + 'px',
     left: 0,
@@ -52,21 +52,21 @@ function drawRoads() {
   });
 
   // verticals
-  const r3 = $('<div>').addClass('road').appendTo(container);
+  const r3 = $('<div>').addClass('road vertical').appendTo(container);
   r3.css({
     top: 0,
     left: (WIDTH / 4 * 1) + 'px',
     width: ROAD_WIDTH,
     height: HEIGHT
   });
-  const r4 = $('<div>').addClass('road').appendTo(container);
+  const r4 = $('<div>').addClass('road vertical').appendTo(container);
   r4.css({
     top: 0,
     left: (WIDTH / 4 * 2) + 'px',
     width: ROAD_WIDTH,
     height: HEIGHT
   });
-  const r5 = $('<div>').addClass('road').appendTo(container);
+  const r5 = $('<div>').addClass('road vertical').appendTo(container);
   r5.css({
     top: 0,
     left: (WIDTH / 4 * 3) + 'px',
@@ -290,7 +290,7 @@ $(document).ready(function() {
 
   const movementInterval = setInterval(
     movePeople,
-    1000
+    920
   );
 
   document.addEventListener('mousemove', function(event){
