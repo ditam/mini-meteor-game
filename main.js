@@ -325,7 +325,7 @@ $(document).ready(function() {
   }, false);
 
   document.addEventListener('click', function(event){
-    if (!gameStarted) { return; }
+    if (!gameStarted || impactDone) { return; }
     mouseX = event.clientX;
     mouseY = event.clientY;
 
